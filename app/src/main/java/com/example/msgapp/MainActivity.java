@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(MainActivity.this,NewMsgActivity.class);
+                //pass intent as input to new msg activity
+                //and startactivityforresult method also get output of that activity
                 startActivityForResult(intent, ADD_MSG_REQUEST);
             }
         });
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == ADD_MSG_REQUEST && resultCode == RESULT_OK){
             String phone = data.getStringExtra(NewMsgActivity.EXTRA_PHONE);
             String msg = data.getStringExtra(NewMsgActivity.EXTRA_MSG);
+
             Main m = new Main(phone, msg);
             msgViewModel.insert_t1(m);
             Toast.makeText(this, "Msg Saved", Toast.LENGTH_SHORT).show();
@@ -105,5 +108,19 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent1 = getIntent();
+        String phone = intent1.getStringExtra(Receiver.EXTRA_PHONE);
+        String msg = intent1.getStringExtra(Receiver.EXTRA_MSG);
+        if(phone != null && msg != null){
+        Main m = new Main(phone,msg);
+        msgViewModel.insert_t1(m);
+        Toast.makeText(this, "Received Msg Saved", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
