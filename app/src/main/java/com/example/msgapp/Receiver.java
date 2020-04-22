@@ -1,5 +1,6 @@
 package com.example.msgapp;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ public class Receiver extends BroadcastReceiver {
     private static final String TAG = "SMS Broadcast Receiver";
     String msg, phone;
     public static String MESSAGE = "Message";
+    MsgViewModel mvm;
 
     public static final String EXTRA_PHONE =
             "com.example.msgapp.EXTRA_PHONE";
@@ -46,11 +48,15 @@ public class Receiver extends BroadcastReceiver {
 
                 Toast.makeText(context, "SMS from " +phone+"\nmsg"+msg, Toast.LENGTH_LONG).show();
 
-                Intent data = new Intent(context, MainActivity.class);
-                data.putExtra(EXTRA_PHONE,phone);
-                data.putExtra(EXTRA_MSG, msg);
-                data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(data);
+//                Intent data = new Intent(context, MainActivity.class);
+//                data.putExtra(EXTRA_PHONE,phone);
+//                data.putExtra(EXTRA_MSG, msg);
+//                data.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(data);
+
+                mvm = new MsgViewModel((Application) context);
+                Main m = new Main(phone,msg);
+                mvm.insert_t1(m);
             }
         }
     }

@@ -53,17 +53,27 @@ class Msg{
     @NonNull
     private int id;
     private String msg;
+    private String contactNumber;
+    private int msg_type;
     @TypeConverters( {TimestampConverter.class} )
     private Date ts;
-    private int msg_type;
 
-    public Msg(String msg, int msg_type){
+    public Msg(String contactNumber, String msg, int msg_type){
+        this.contactNumber = contactNumber;
         this.msg = msg;
         this.msg_type = msg_type;
     }
 
     public void setTs(Date ts) {
         this.ts = AppUtils.getCurrentDateTime();
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
     }
 
     public void setId(int id) {

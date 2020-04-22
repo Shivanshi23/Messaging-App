@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.Date;
 import java.util.List;
 
 public class MsgRepository {
@@ -15,12 +16,13 @@ public class MsgRepository {
     public MsgRepository(Application application) {
         MsgDatabase database = MsgDatabase.getInstance(application);
         msgDao = database.msgDao();
-        allMainMsg = msgDao.getAll_t1();
-        allMsg = msgDao.getAll_t2();
+        //allMainMsg = msgDao.getAll_t1();
+        //allMsg = msgDao.getAll_t2();
     }
 
     // for main activity
     public void insert_t1(Main m) {
+        m.setTs(new Date());
         new InsertMainAsyncTask(msgDao).execute(m);
     }
     public void update_t1(Main m) {
@@ -33,6 +35,7 @@ public class MsgRepository {
         new DeleteAllMainAsyncTask(msgDao).execute();
     }
     public LiveData<List<Main>> getAll_t1(){
+        allMainMsg = msgDao.getAll_t1();
         return allMainMsg;
     }
     private static class InsertMainAsyncTask extends AsyncTask<Main, Void, Void> {
@@ -90,6 +93,7 @@ public class MsgRepository {
 
     // for individual threads of contacts
     public void insert_t2(Msg m) {
+        m.setTs(new Date());
         new InsertMsgAsyncTask(msgDao).execute(m);
     }
 
@@ -99,7 +103,8 @@ public class MsgRepository {
     public void deleteAll_t2() {
         new DeleteAllMsgAsyncTask(msgDao).execute();
     }
-    public LiveData<List<Msg>> getAll_t2(){
+    public LiveData<List<Msg>> getAll_t2(String contactNumber){
+        allMsg = msgDao.getAll_t2(contactNumber);
         return allMsg;
     }
     private static class InsertMsgAsyncTask extends AsyncTask<Msg, Void, Void> {

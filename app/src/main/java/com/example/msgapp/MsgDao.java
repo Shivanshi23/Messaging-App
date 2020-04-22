@@ -22,9 +22,10 @@ public interface MsgDao {
     void delete_t1(Main m);
     @Query("DELETE FROM main_table")
     void deleteAll_t1();
-//    @Query("SELECT * FROM main_table order by datetime(ts) desc")
     @Query("SELECT * FROM main_table order by id desc")
     LiveData<List<Main>> getAll_t1();
+
+
 
     // for individual threads
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -33,7 +34,7 @@ public interface MsgDao {
     void delete_t2(Msg msg);
     @Query("DELETE FROM msg_table")
     void deleteAll_t2();
-    @Query("SELECT * FROM msg_table order by datetime(ts)")
-    LiveData<List<Msg>> getAll_t2();
+    @Query("SELECT * FROM msg_table where contactNumber = :contactNumber")
+    LiveData<List<Msg>> getAll_t2(String contactNumber);
 
 }

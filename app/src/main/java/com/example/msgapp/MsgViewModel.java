@@ -18,7 +18,7 @@ public class MsgViewModel extends AndroidViewModel {
         super(application);
         repository = new MsgRepository(application);
         allMainMsg = repository.getAll_t1();
-        allMsg = repository.getAll_t2();
+        //allMsg = repository.getAll_t2(String contactNumber);
     }
 
     public void insert_t1(Main m){
