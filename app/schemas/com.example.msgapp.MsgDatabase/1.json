@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a18f428eba7fa61224e918d1f4ad1c61",
+    "identityHash": "942063f457f0901fd07481aa6e0a300d",
     "entities": [
       {
         "tableName": "main_table",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "msg_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `msg` TEXT, `contactNumber` TEXT, `msg_type` INTEGER NOT NULL, `ts` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `msg` TEXT, `contactNumber` TEXT, `msg_type` TEXT, `ts` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -67,8 +67,8 @@
           {
             "fieldPath": "msg_type",
             "columnName": "msg_type",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "ts",
@@ -90,7 +90,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a18f428eba7fa61224e918d1f4ad1c61')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '942063f457f0901fd07481aa6e0a300d')"
     ]
   }
 }

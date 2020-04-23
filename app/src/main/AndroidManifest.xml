@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".NewMsgActivity"
             android:parentActivityName=".MainActivity"></activity>
+
+        <activity android:name=".IndividualChatActivity">
+        </activity>
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
@@ -23,16 +27,12 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Receiver"
-            android:exported="true"
+        <receiver
+            android:name=".Receiver"
             android:enabled="true"
-            android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="999" >
-
+            android:exported="true">
+            <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-                <action android:name="android.provider.Telephony.SMS_DELIVER" />
-                <action android:name="android.provider.Telephony.SMS_DELIVER_ACTION" />
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
     </application>

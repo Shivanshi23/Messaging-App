@@ -2,6 +2,7 @@ package com.example.msgapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,9 +22,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MsgAdapter.OnChatSummaryListener{
     public static final int ADD_MSG_REQUEST = 1;
+    private String TAG = this.getClass().getSimpleName();
     MsgViewModel msgViewModel;
+    private List<Main> chatSummaryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager((new LinearLayoutManager(this)));
         recyclerView.setHasFixedSize(true);
 
-        MsgAdapter adapter = new MsgAdapter();
+        final MsgAdapter adapter = new MsgAdapter(this,this);
         recyclerView.setAdapter(adapter);
 
         msgViewModel = new ViewModelProvider(this).get(MsgViewModel.class);
@@ -71,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
+    }
+
+    @Override
+    public void onChatSummaryClick(int position) {
+        Log.i(TAG, position + "item clicked");
+        Intent i = new Intent(MainActivity.this, IndividualChatActivity.class);
+        i.putExtra("contactNumber",chatSummaryList.get(position).getSender());
+        startActivity(i);
     }
 
     @Override

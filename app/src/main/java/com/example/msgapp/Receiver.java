@@ -13,6 +13,7 @@ import android.widget.Toast;
 public class Receiver extends BroadcastReceiver {
     private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
     private static final String TAG = "SMS Broadcast Receiver";
+    private String TAG1 = this.getClass().getSimpleName();
     String msg, phone;
     public static String MESSAGE = "Message";
     MsgViewModel mvm;
@@ -45,6 +46,9 @@ public class Receiver extends BroadcastReceiver {
                     msg = message[i].getMessageBody();
                     phone = message[i].getDisplayOriginatingAddress();
                 }
+                Log.i(TAG1,"Phone "+phone);
+                Log.i(TAG1, "Message Body "+msg);
+//                Log.i(TAG, "timestamp "+timestamp);
 
                 Toast.makeText(context, "SMS from " +phone+"\nmsg"+msg, Toast.LENGTH_LONG).show();
 
@@ -55,9 +59,45 @@ public class Receiver extends BroadcastReceiver {
 //                context.startActivity(data);
 
                 mvm = new MsgViewModel((Application) context);
-                Main m = new Main(phone,msg);
+                Main m = new Main(phone, msg);
                 mvm.insert_t1(m);
+
+                Msg m2 = new Msg(phone,msg,"received");
+                mvm.insert_t2(m2);
             }
         }
     }
+
+//    private String TAG = this.getClass().getSimpleName();
+//
+//    MsgViewModel mvm;
+//    @Override
+//    public void onReceive(Context context, Intent intent) {
+//        Bundle bundle = intent.getExtras();
+//        Log.i(TAG,"Message Recieved");
+//        if(bundle!=null){
+//            final Object[] pdusObj = (Object[])bundle.get("pdus");
+//            String format = bundle.get("format").toString();
+//
+//            for(int i=0; i<pdusObj.length;i++){
+//
+//                SmsMessage message = SmsMessage.createFromPdu((byte[])pdusObj[i],format);
+//                String recieverPhn = message.getDisplayOriginatingAddress();
+//                String messageBody = message.getDisplayMessageBody();
+//                Long timestamp = message.getTimestampMillis();
+//
+//                Log.i(TAG,"Phone "+recieverPhn);
+//                Log.i(TAG, "Message Body "+messageBody);
+//                Log.i(TAG, "timestamp "+timestamp);
+//
+//                mvm = new MsgViewModel((Application) context);
+//                Main m = new Main(recieverPhn,messageBody);
+//                mvm.insert_t1(m);
+//
+//                Toast.makeText(context, "Message Received",Toast.LENGTH_LONG).show();
+//
+//            }
+//        }
+//    }
 }
+

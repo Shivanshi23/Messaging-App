@@ -54,11 +54,11 @@ class Msg{
     private int id;
     private String msg;
     private String contactNumber;
-    private int msg_type;
+    private String msg_type;
     @TypeConverters( {TimestampConverter.class} )
     private Date ts;
 
-    public Msg(String contactNumber, String msg, int msg_type){
+    public Msg(String contactNumber, String msg, String msg_type){
         this.contactNumber = contactNumber;
         this.msg = msg;
         this.msg_type = msg_type;
@@ -92,7 +92,7 @@ class Msg{
         return ts;
     }
 
-    public int getMsg_type() {
+    public String getMsg_type() {
         return msg_type;
     }
 }

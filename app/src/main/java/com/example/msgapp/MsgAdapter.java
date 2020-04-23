@@ -1,5 +1,6 @@
 package com.example.msgapp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,35 @@ import java.util.Date;
 import java.util.List;
 
 public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgHolder> {
+    private LayoutInflater layoutInflater;
     private List<Main> items = new ArrayList<>();
+    private OnChatSummaryListener onChatSummaryListener;
 
-    public class MsgHolder extends RecyclerView.ViewHolder {
+    public MsgAdapter(Context context, OnChatSummaryListener onChatSummaryListener){
+        layoutInflater = LayoutInflater.from(context);
+        this.onChatSummaryListener = onChatSummaryListener;
+    }
+
+    public class MsgHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView tv_sender;
         private TextView tv_msg;
         private TextView tv_ts;
+        OnChatSummaryListener onChatSummaryListener;
 
-        public MsgHolder(@NonNull View itemView) {
+
+        public MsgHolder(@NonNull View itemView, OnChatSummaryListener onChatSummaryListener) {
             super(itemView);
             tv_sender = itemView.findViewById(R.id.tv_sender);
             tv_msg = itemView.findViewById(R.id.tv_msg);
             tv_ts = itemView.findViewById(R.id.tv_ts);
+            this.onChatSummaryListener = onChatSummaryListener;
+            itemView.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View view){
+            onChatSummaryListener.onChatSummaryClick(getAdapterPosition());
         }
 
         public void setData(Main current, int position){
@@ -54,14 +71,17 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgHolder> {
 
     }
 
-    //hi there
+    public interface OnChatSummaryListener{
+        void onChatSummaryClick(int position);
+    }
+
 
     @NonNull
     @Override
     public MsgHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.msg_item, parent, false);
-        return new MsgHolder(itemView);
+        return new MsgHolder(itemView,onChatSummaryListener);
     }
 
     @Override
@@ -74,7 +94,10 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.MsgHolder> {
 
     @Override
     public int getItemCount() {
+        if(items!=null)
         return items.size();
+        else
+            return 0;
     }
 
     public void setItems(List<Main> m){
