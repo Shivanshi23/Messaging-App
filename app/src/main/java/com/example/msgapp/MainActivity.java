@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MsgAdapter.OnChat
             @Override
             public void onChanged(List<Main> mains) {
                 adapter.setItems(mains);
+                chatSummaryList = mains;
             }
         });
 
